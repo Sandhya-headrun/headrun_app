@@ -14,11 +14,12 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
-from django.contrib import admin
 from django.urls import path,include
-
+from user.api.serializers import PostSerializer, ProfileSerializer
+from user.models.models import Posts,Profile
+from user.views import StoryPost, UserList
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', include('base.urls')),
-    
+
+    path('users/', UserList.as_view(queryset=Profile.objects.all(), serializer_class=ProfileSerializer), name='user-list'),
+    path('users/', StoryPost.as_view(queryset=Posts.objects.all(), serializer_class=PostSerializer), name='posts-list'),
 ]
