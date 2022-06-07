@@ -15,11 +15,20 @@ Including another URLconf
 """
 
 from django.urls import path,include
-from user.api.serializers import PostSerializer, ProfileSerializer
-from user.models.models import Posts,Profile
-from user.views import StoryPost, UserList
+from userapp.api.serializers import PostSerializer, ProfileSerializer
+from userapp import views
+from userapp.model.models import Posts,Profile
+from userapp.api.views import GetPosts, UserList,GetStory,EventDetails
 urlpatterns = [
 
     path('users/', UserList.as_view(queryset=Profile.objects.all(), serializer_class=ProfileSerializer), name='user-list'),
-    path('users/', StoryPost.as_view(queryset=Posts.objects.all(), serializer_class=PostSerializer), name='posts-list'),
+    path('posts/', GetPosts.as_view(), name='posts-list'),
+    path('stories/', GetStory.as_view(), name='posts-list'),
+    path('update/<int:id>/', views.updatepost, name="updatepost"),
+    path('delete/<int:id>/', views.delete_post, name="deletepost"),
+    path('updatestory/<int:id>/', views.updatestory, name="updatestory"),
+    path('deletestory/<int:id>/', views.delete_story, name="deletestory"),
+    path('events/', EventDetails.as_view(), name='Events'),
+    path('updateEvent/<int:id>/', views.updateEvent, name="updatestory"),
+    path('deleteEvent/<int:id>/', views.deleteEvent, name="deletestory"),
 ]
